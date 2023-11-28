@@ -107,6 +107,8 @@ function into(this: Logger, options: ElysiaLoggerOptions = {}) {
         ctx.store = { ...ctx.store, startTime: performance.now() };
       })
       .onResponse((ctx) => {
+        // When a hook aborts due to an error, `log` can be undefined.
+        if (!log) return;
         if (log.level == 'silent') {
           return;
         }
